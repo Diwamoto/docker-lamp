@@ -6,10 +6,10 @@ RUN apt-get update \
     && docker-php-ext-install pdo_mysql mysqli intl
 
     # 必要なファイルのコピー
-COPY ./ssl/ /etc/apache2/ssl/
-COPY ./ssl/ssl.conf /etc/apache2/sites-available/default-ssl.conf
-COPY ./vhost.conf /etc/apache2/sites-available/vhost.conf
-COPY ./php5/php.ini /usr/local/etc/php/
+COPY ./web/ssl/ /etc/apache2/ssl/
+COPY ./web/ssl/ssl.conf /etc/apache2/sites-available/default-ssl.conf
+COPY ./web/vhost.conf /etc/apache2/sites-available/vhost.conf
+COPY ./web/php5/php.ini /usr/local/etc/php/
 
     # ssl設定
 RUN a2enmod ssl \
