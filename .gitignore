@@ -4,7 +4,11 @@ db/phpmyadmin/*
 db/logs/mysql/*
 db/logs/postgres/*
 web/logs/*
-mails/*
 web/ssl/keys/*
+web/php7/httpd.conf
+web/php7/php.ini
+web/php5/httpd.conf
+web/php5/php.ini
+mails/*
 .docker-sync
 .idea
