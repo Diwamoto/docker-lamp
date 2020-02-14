@@ -1,0 +1,10 @@
+db/mysql_data/*
+db/postgres_data/*
+db/phpmyadmin/*
+db/logs/mysql/*
+db/logs/postgres/*
+web/logs/*
+mails/*
+web/ssl/keys/*
+.docker-sync
+.idea

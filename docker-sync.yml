@@ -1,0 +1,7 @@
+version: '2'
+
+syncs:
+  sync-volume:
+    src: '/Path/to/your/Projects'
+    sync_strategy: 'native_osx'
+    sync_userid: '33'

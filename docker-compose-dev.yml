@@ -1,0 +1,13 @@
+version: '2'
+
+volumes:
+  sync-volume:
+    external: true
+
+services:
+  web-php7:
+    volumes:
+      - sync-volume:/var/www/html:nocopy
+  # web-php5:
+  #   volumes:
+  #     - sync-volume:/var/www/html:nocopy

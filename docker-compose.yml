@@ -1,0 +1,125 @@
+version: '2'
+services:
+  db:
+    container_name: db
+    build: 
+      context: ./
+      dockerfile: ./db/mysql/Dockerfile
+    environment:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: "projects"
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./db/mysql/conf.d:/etc/mysql/conf.d
+      - ./db/logs/mysql:/var/log/mysql
+      - ./db/mysql_data:/var/lib/mysql
+  # postgresにするときはこっち
+  # db:
+  #   container_name: db
+  #   image: postgres:9.3
+  #   environment:
+  #     POSTGRES_USER: user
+  #     POSTGRES_PASSWORD: password
+  #     POSTGRES_ROOT_PASSWORD: root
+  #     POSTGRES_DATABASE: "projects"
+  #   ports:
+  #     - '5433:5432'
+  #   volumes:
+  #     - ./logs/postgres:/var/log/postgres
+  #     - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+  #     - ./db/postgres_data:/var/lib/postgresql/data
+  web-php7:
+    container_name: web-php7
+    build: 
+      context: ./
+      dockerfile: ./web/php7/Dockerfile
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      PHP_IDE_CONFIG: "serverName=localhost"
+      OS_NAME: "docker"
+      COMPOSER_ALLOW_SUPERUSER: 1
+    volumes:
+      - ../Projects:/var/www/html
+      - ./web/logs:/var/log/apache2
+    depends_on:
+      - db
+  # php5にする時はこっち
+  # web-php5:
+  #   container_name: web-php5
+  #   build: 
+  #     context: ./
+  #     dockerfile: ./php5/Dockerfile
+  #   ports:
+  #     - '8888:80'
+  #     - '4430:443'
+  #   environment:
+  #     PHP_IDE_CONFIG: "serverName=localhost"
+  #     COMPOSER_ALLOW_SUPERUSER: 1
+  #     OS_NAME: "docker"
+  #   volumes:
+  #     - ../Projects:/var/www/html
+  #     - ./web/logs:/var/log/apache2
+  #   depends_on:
+  #     - db
+  # # smtp:
+  #   container_name: smtp
+  #   image: schickling/mailcatcher
+  #   ports:
+  #     - "1080:1080"
+  #     - "1025:1025"
+  # python3にする時はこっち
+  # web-py3:
+  #   container_name: web-py3
+  #   build: 
+  #     context: ./
+  #     dockerfile: ./web/python3/Dockerfile
+  #   ports:
+  #     - '8000:80'
+  #     - '44300:443'
+  #   environment:
+  #     PHP_IDE_CONFIG: "serverName=localhost"
+  #     COMPOSER_ALLOW_SUPERUSER: 1
+  #     OS_NAME: "docker"
+  #   volumes:
+  #     - ../Projects:/var/www/html
+  #   depends_on:
+  #     - db
+  # smtp:
+  #   container_name: smtp
+  #   image: schickling/mailcatcher
+  #   ports:
+  #     - "1080:1080"
+  #     - "1025:1025"
+  # mailhogに変更
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog
+    ports:
+      - "1080:8025"
+      - "1025:1025"
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /tmp
+    volumes:
+        - "./mails:/tmp"
+  pma:
+    container_name: pma
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=user
+      - PMA_PASSWORD=password
+    links:
+      - db
+    ports:
+      - 8080:80
+    volumes:
+      - ./db/phpmyadmin/sessions:/sessions
