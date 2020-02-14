@@ -55,7 +55,7 @@ services:
   #   container_name: web-php5
   #   build: 
   #     context: ./
-  #     dockerfile: ./php5/Dockerfile
+  #     dockerfile: ./web/php5/Dockerfile
   #   ports:
   #     - '8888:80'
   #     - '4430:443'
