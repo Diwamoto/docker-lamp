@@ -12,10 +12,9 @@ RUN apk update && apk upgrade && apk add \
     && echo "zend_extension=/usr/lib/php7/modules/xdebug.so" > /etc/php7/conf.d/xdebug.ini \
     && echo "xdebug.default_enable = 1" >> /etc/php7/conf.d/xdebug.ini \
     && echo "xdebug.remote_enable = 1" >> /etc/php7/conf.d/xdebug.ini \
-    && echo "xdebug.remote_connect_back = 1" >> /etc/php7/conf.d/xdebug.ini \
     && echo "xdebug.remote_autostart = 1" >> /etc/php7/conf.d/xdebug.ini \
     && echo "xdebug.remote_port = 9000" >> /etc/php7/conf.d/xdebug.ini \
-    && echo "xdebug.remote_host = 10.0.2.2" >> /etc/php7/conf.d/xdebug.ini \
+    && echo "xdebug.remote_host = host.docker.internal" >> /etc/php7/conf.d/xdebug.ini \
     # mailhogの設定
     && curl -sSLO https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \
     && chmod +x mhsendmail_linux_amd64 \
