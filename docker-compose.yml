@@ -1,5 +1,29 @@
 version: '2'
 services:
+  # lamp:
+  #   container_name: lamp
+  #   build: 
+  #     context: ./
+  #     dockerfile: ./lamp/Dockerfile
+  #   ports:
+  #     - '80:80'
+  #     - '443:443'
+  #     - '3306:3306'
+  #   environment:
+  #     PHP_IDE_CONFIG: "serverName=localhost"
+  #     OS_NAME: "docker"
+  #     COMPOSER_ALLOW_SUPERUSER: 1
+  #     MYSQL_USER: user
+  #     MYSQL_PASSWORD: password
+  #     MYSQL_ROOT_PASSWORD: root
+  #     MYSQL_DATABASE: "projects"
+  #   volumes:
+  #     - ../Projects:/var/www/html
+  #     - ./web/logs:/var/log/apache2
+  #     - ./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+  #     - ./db/mysql/conf.d:/etc/mysql/conf.d
+  #     - ./db/logs/mysql:/var/log/mysql
+  #     - ./db/mysql_data:/var/lib/mysql
   db:
     container_name: db
     build: 

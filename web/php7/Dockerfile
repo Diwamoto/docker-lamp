@@ -2,8 +2,8 @@ FROM diwamoto0118/php7.3-apache-alpine:latest
 
     # apache 基本設定
 RUN apk update && apk upgrade && apk add \
-	vim git curl less openssl tzdata apache2-ssl\
-    php7-json php7-gd php7-pecl-xdebug \
+	vim git tar curl less openssl tzdata apache2-ssl\
+    php7-json php7-gd php7-pecl-xdebug php7-mysqli php7-opcache\
     && cp /usr/bin/php7 /usr/bin/php \
     # timezoneの設定
     && cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
@@ -14,7 +14,16 @@ RUN apk update && apk upgrade && apk add \
     && echo "xdebug.remote_enable = 1" >> /etc/php7/conf.d/xdebug.ini \
     && echo "xdebug.remote_autostart = 1" >> /etc/php7/conf.d/xdebug.ini \
     && echo "xdebug.remote_port = 9000" >> /etc/php7/conf.d/xdebug.ini \
-    && echo "xdebug.remote_host = host.docker.internal" >> /etc/php7/conf.d/xdebug.ini \
+    && echo "xdebug.remote_host = 10.0.2.2" >> /etc/php7/conf.d/xdebug.ini \
+    # opcacheの設定
+    && echo "zend_extension=/usr/lib/php7/modules/opcache.so" > /etc/php7/conf.d/opcache.ini \
+    && echo "opcache.enable = 1" >> /etc/php7/conf.d/opcache.ini \
+    && echo "opcache.enable_cli = 1" >> /etc/php7/conf.d/opcache.ini \
+    && echo "opcache.memory_consumption = 128" >> /etc/php7/conf.d/opcache.ini \
+    && echo "opcache.interned_strings_buffer = 8" >> /etc/php7/conf.d/opcache.ini \
+    && echo "opcache.max_accelerated_files = 4000" >> /etc/php7/conf.d/opcache.ini \
+    && echo "opcache.revalidate_freq = 60" >> /etc/php7/conf.d/opcache.ini \
+    && echo "opcache.fast_shutdown = 1" >> /etc/php7/conf.d/opcache.ini \
     # mailhogの設定
     && curl -sSLO https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \
     && chmod +x mhsendmail_linux_amd64 \
