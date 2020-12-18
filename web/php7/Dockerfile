@@ -10,11 +10,11 @@ RUN apk update && apk upgrade && apk add \
     && apk del tzdata \
     # xdebugの設定
     && echo "zend_extension=/usr/lib/php7/modules/xdebug.so" > /etc/php7/conf.d/xdebug.ini \
-    && echo "xdebug.default_enable = 1" >> /etc/php7/conf.d/xdebug.ini \
-    && echo "xdebug.remote_enable = 1" >> /etc/php7/conf.d/xdebug.ini \
-    && echo "xdebug.remote_autostart = 1" >> /etc/php7/conf.d/xdebug.ini \
-    && echo "xdebug.remote_port = 9000" >> /etc/php7/conf.d/xdebug.ini \
-    && echo "xdebug.remote_host = 10.0.2.2" >> /etc/php7/conf.d/xdebug.ini \
+    && echo "xdebug.mode = debug,develop" >> /etc/php7/conf.d/xdebug.ini \
+    && echo "xdebug.start_with_request = yes" >> /etc/php7/conf.d/xdebug.ini \
+    && echo "xdebug.client_port = 9003" >> /etc/php7/conf.d/xdebug.ini \
+    && echo "xdebug.client_host = 10.0.2.2" >> /etc/php7/conf.d/xdebug.ini \
+    && echo "xdebug.log" >> /etc/php7/conf.d/xdebug.ini \
     # opcacheの設定
     && echo "zend_extension=/usr/lib/php7/modules/opcache.so" > /etc/php7/conf.d/opcache.ini \
     && echo "opcache.enable = 1" >> /etc/php7/conf.d/opcache.ini \
@@ -33,8 +33,6 @@ RUN apk update && apk upgrade && apk add \
     && rm -rf /tmp/* /var/cache/apk/* 
 
     # 必要ファイルのコピー
-COPY ./web/ssl/ /etc/apache2/ssl/
-COPY ./web/ssl/ssl.conf /etc/apache2/conf.d/
 COPY ./web/php7/httpd.conf /etc/apache2/
 COPY ./web/vhost.conf /etc/apache2/conf.d/
 COPY ./web/php7/php.ini /etc/php7/
