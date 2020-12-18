@@ -14,7 +14,6 @@ RUN apk update && apk upgrade && apk add \
     && echo "xdebug.start_with_request = yes" >> /etc/php7/conf.d/xdebug.ini \
     && echo "xdebug.client_port = 9003" >> /etc/php7/conf.d/xdebug.ini \
     && echo "xdebug.client_host = 10.0.2.2" >> /etc/php7/conf.d/xdebug.ini \
-    && echo "xdebug.log" >> /etc/php7/conf.d/xdebug.ini \
     # opcacheの設定
     && echo "zend_extension=/usr/lib/php7/modules/opcache.so" > /etc/php7/conf.d/opcache.ini \
     && echo "opcache.enable = 1" >> /etc/php7/conf.d/opcache.ini \
