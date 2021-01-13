@@ -11,25 +11,17 @@ RUN apk update && apk upgrade && apk add \
     # xdebugの設定
     && echo "zend_extension=/usr/lib/php7/modules/xdebug.so" > /etc/php7/conf.d/xdebug.ini \
     && echo "xdebug.mode = debug,develop" >> /etc/php7/conf.d/xdebug.ini \
-    && echo "xdebug.start_with_request = yes" >> /etc/php7/conf.d/xdebug.ini \
+    && echo "xdebug.start_with_request = no" >> /etc/php7/conf.d/xdebug.ini \
     && echo "xdebug.client_port = 9003" >> /etc/php7/conf.d/xdebug.ini \
     && echo "xdebug.client_host = 10.0.2.2" >> /etc/php7/conf.d/xdebug.ini \
-    # opcacheの設定
-    && echo "zend_extension=/usr/lib/php7/modules/opcache.so" > /etc/php7/conf.d/opcache.ini \
-    && echo "opcache.enable = 1" >> /etc/php7/conf.d/opcache.ini \
-    && echo "opcache.enable_cli = 1" >> /etc/php7/conf.d/opcache.ini \
-    && echo "opcache.memory_consumption = 128" >> /etc/php7/conf.d/opcache.ini \
-    && echo "opcache.interned_strings_buffer = 8" >> /etc/php7/conf.d/opcache.ini \
-    && echo "opcache.max_accelerated_files = 4000" >> /etc/php7/conf.d/opcache.ini \
-    && echo "opcache.revalidate_freq = 60" >> /etc/php7/conf.d/opcache.ini \
-    && echo "opcache.fast_shutdown = 1" >> /etc/php7/conf.d/opcache.ini \
+    && echo "xdebug.log" >> /etc/php7/conf.d/xdebug.ini \
     # mailhogの設定
     && curl -sSLO https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \
     && chmod +x mhsendmail_linux_amd64 \
     && mv mhsendmail_linux_amd64 /usr/local/bin/mhsendmail \
     # Composerのinstall
     && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer \
-    && rm -rf /tmp/* /var/cache/apk/* 
+    && rm -rf /tmp/* /var/cache/apk/*
 
     # 必要ファイルのコピー
 COPY ./web/php7/httpd.conf /etc/apache2/
