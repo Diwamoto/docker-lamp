@@ -1,26 +1,25 @@
 FROM diwamoto0118/php7.3-apache-alpine:latest
 
-    # apache 基本設定
-RUN apk update && apk upgrade && apk add \
-	vim git tar curl less openssl tzdata apache2-ssl\
-    php7-json php7-gd php7-pecl-xdebug php7-mysqli php7-opcache\
-    && cp /usr/bin/php7 /usr/bin/php \
+RUN apk update && apk upgrade && apk --no-cache add tzdata vim git bash \
     # timezoneの設定
     && cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
     && apk del tzdata \
     # xdebugの設定
-    && echo "zend_extension=/usr/lib/php7/modules/xdebug.so" > /etc/php7/conf.d/xdebug.ini \
-    && echo "xdebug.mode = debug,develop" >> /etc/php7/conf.d/xdebug.ini \
-    && echo "xdebug.start_with_request = no" >> /etc/php7/conf.d/xdebug.ini \
-    && echo "xdebug.client_port = 9003" >> /etc/php7/conf.d/xdebug.ini \
-    && echo "xdebug.client_host = 10.0.2.2" >> /etc/php7/conf.d/xdebug.ini \
-    && echo "xdebug.log" >> /etc/php7/conf.d/xdebug.ini \
+    && echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20180731/opcache.so" >> /usr/local/lib/php.ini \
+    && echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20180731/xdebug.so" >> /usr/local/lib/php.ini \
+    && echo "xdebug.mode = debug,develop" >> /usr/local/lib/php.ini \
+    && echo "xdebug.start_with_request = no" >> /usr/local/lib/php.ini \
+    && echo "xdebug.client_port = 9003" >> /usr/local/lib/php.ini \
+    && echo "xdebug.client_host = 10.0.2.2" >> /usr/local/lib/php.ini \
+    && mkdir /run/apache2 \
+    && chmod 777 /run/apache2 \
     # mailhogの設定
     && curl -sSLO https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 \
     && chmod +x mhsendmail_linux_amd64 \
     && mv mhsendmail_linux_amd64 /usr/local/bin/mhsendmail \
     # Composerのinstall
     && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer \
+    # 無駄ファイルを削除
     && rm -rf /tmp/* /var/cache/apk/*
 
     # 必要ファイルのコピー
