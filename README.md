@@ -49,5 +49,8 @@ mkcert -install
 で必要なファイルができるのでもう一度docker-compose buildをお願いします。
 virtualhostの設定はssl.confにvhost.confの中身をコピーしてポートを443に変えてやればオーケーです。
 
+## docker-machine上でdockerを使う
+
+ブランチをdocker-machineに変えて再度`docker-compose up -d --build`してください。
 
 

@@ -4,6 +4,8 @@ RUN apk update && apk upgrade && apk --no-cache add tzdata vim git bash \
     # timezoneの設定
     && cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
     && apk del tzdata \
+    # docker-machine用の設定 マウントした際にuseridが変更される為
+    && addgroup -S -g 50 dapacheg && adduser -S -u 1000 -g 50 dapache \
     # xdebugの設定
     && echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20180731/opcache.so" >> /usr/local/lib/php.ini \
     && echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20180731/xdebug.so" >> /usr/local/lib/php.ini \
