@@ -1,35 +1,15 @@
 # docker-lamp
 
 docker でphp+apache+db(mysql or postgres)+mailhog+phpmyadminな環境を作りました。
-もちろんdocker-sync対応なのでmac環境でも使えると思います。
+docker-machine上で動かすので
 
 ## 起動方法
 
-docker,docker-compose,docker-syncはinstall済みであると仮定します。
-
-`docker-sync-stack start`
-で起動できます。終わり。
-
-## 自分のローカルプロジェクトフォルダをdockerと同期する方法
-
-docker-sync.ymlにて、
-
-```docker-sync.yml
-version: '2'
-
-options:
-  max-attempt: 2
-
-syncs:
-  sync-volume:
-    src: '' <-- ここの部分を自分のプロジェクトフォルダに変えましょう。
-    sync_strategy: 'native_osx'
-    sync_userid: '33'
-    monit_interval: 1
-```
-
-これで対応するフォルダに{フォルダ名}.localhostでアクセスできます。hostsファイルの設定も要りません。vhostの設定もいらないのです。
-メールは一括でlocalhost:8025に飛びます。これもいつかmailhog.localhostにしてしまおうと思います。pmaも。
+起動にはvirtualboxが必要になりますのでインストールをお願いいたします。
+初回起動時には`init.sh`を実行すればdocker-machine含めて全て必要な設定を行ってくれます。
+次回以降は`docker-compose up -d`と入力すれば起動できます。
+ローカル環境のssl化も済んでいるので、プロジェクトフォルダにphpのプロジェクトを配置して、
+`https://{プロジェクト名}.localhost`で接続できます。最強！！
 
 
 ## ssl化手順
@@ -48,7 +28,3 @@ mkcert -install
 `mkcert -cert-file ./keys/server.crt -key-file ./keys/server.key $(cat ./hostnames)`
 で必要なファイルができるのでもう一度docker-compose buildをお願いします。
 virtualhostの設定はssl.confにvhost.confの中身をコピーしてポートを443に変えてやればオーケーです。
-
-# docker-machine上でビルドする
-
-ブランチをdocker-machineに切り替えてください。

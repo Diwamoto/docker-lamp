@@ -1929,6 +1929,13 @@ ldap.max_links = -1
 ; option.
 ;openssl.cafile=
 
+[xdebug]
+zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20180731/xdebug.so
+xdebug.mode = debug
+xdebug.client_port = 9003
+xdebug.discover_client_host = true
+xdebug.start_with_request = yes
+
 ; If openssl.cafile is not specified or if the CA file is not found, the
 ; directory pointed to by openssl.capath is searched for a suitable
 ; certificate. This value must be a correctly hashed certificate directory.

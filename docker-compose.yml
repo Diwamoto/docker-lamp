@@ -1,29 +1,5 @@
 version: '2'
 services:
-  # lamp:
-  #   container_name: lamp
-  #   build: 
-  #     context: ./
-  #     dockerfile: ./lamp/Dockerfile
-  #   ports:
-  #     - '80:80'
-  #     - '443:443'
-  #     - '3306:3306'
-  #   environment:
-  #     PHP_IDE_CONFIG: "serverName=localhost"
-  #     OS_NAME: "docker"
-  #     COMPOSER_ALLOW_SUPERUSER: 1
-  #     MYSQL_USER: user
-  #     MYSQL_PASSWORD: password
-  #     MYSQL_ROOT_PASSWORD: root
-  #     MYSQL_DATABASE: "projects"
-  #   volumes:
-  #     - ../Projects:/var/www/html
-  #     - ./web/logs:/var/log/apache2
-  #     - ./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-  #     - ./db/mysql/conf.d:/etc/mysql/conf.d
-  #     - ./db/logs/mysql:/var/log/mysql
-  #     - ./db/mysql_data:/var/lib/mysql
   db:
     container_name: db
     build: 
@@ -34,7 +10,7 @@ services:
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: "projects"
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb-use-native-aio=0
     ports:
       - "3306:3306"
     volumes:
@@ -115,12 +91,6 @@ services:
   #     - ../Projects:/var/www/html
   #   depends_on:
   #     - db
-  # smtp:
-  #   container_name: smtp
-  #   image: schickling/mailcatcher
-  #   ports:
-  #     - "1080:1080"
-  #     - "1025:1025"
   # mailhogに変更
   mailhog:
     container_name: mailhog
