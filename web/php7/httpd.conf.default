@@ -177,8 +177,8 @@ LoadModule negotiation_module modules/mod_negotiation.so
 # It is usually good practice to create a dedicated user and group for
 # running httpd, as with most system services.
 #
-User apache
-Group apache
+User dapache
+Group dapacheg
 
 </IfModule>
 

@@ -11,7 +11,7 @@
             "name": "Listen for XDebug",
             "type": "php",
             "request": "launch",
-            "port": 9000,
+            "port": 9003,
             "pathMappings": {
                 // {docker上のdocument root}:{ローカルのdocument root}
                 "/var/www/html/{project}":"/Path/to/your/Projects/{project}"
