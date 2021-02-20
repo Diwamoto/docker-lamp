@@ -28,5 +28,3 @@ mkcert -install
 `mkcert -cert-file ./keys/server.crt -key-file ./keys/server.key $(cat ./hostnames)`
 で必要なファイルができるのでもう一度docker-compose buildをお願いします。
 virtualhostの設定はssl.confにvhost.confの中身をコピーしてポートを443に変えてやればオーケーです。
-
-
