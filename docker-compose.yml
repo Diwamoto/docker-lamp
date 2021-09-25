@@ -7,7 +7,6 @@ services:
       dockerfile: ./db/mysql/Dockerfile
     environment:
       MYSQL_ROOT_PASSWORD: root
-    command: --innodb-use-native-aio=0 --sql-mode=NO_ENGINE_SUBSTITUTION
     ports:
       - "3306:3306"
     volumes:
