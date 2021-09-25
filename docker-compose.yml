@@ -2,9 +2,7 @@ version: '2'
 services:
   db:
     container_name: db
-    build:
-      context: ./
-      dockerfile: ./db/mysql/Dockerfile
+    image: diwamoto0118/mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
     ports:
