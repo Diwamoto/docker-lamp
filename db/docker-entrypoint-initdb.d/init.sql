@@ -1,3 +1,5 @@
-grant all privileges on *.* to user@"%" identified by 'password' with grant option;
+CREATE DATABASE projects;
+CREATE USER user@"%" IDENTIFIED BY "password" ;  
+GRANT ALL ON *.* TO user@"%" WITH GRANT OPTION;
 FLUSH PRIVILEGES;
-SET GLOBAL sql_mode = '';
+SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION';

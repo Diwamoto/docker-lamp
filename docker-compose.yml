@@ -2,20 +2,17 @@ version: '2'
 services:
   db:
     container_name: db
-    build: 
+    build:
       context: ./
       dockerfile: ./db/mysql/Dockerfile
     environment:
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: "projects"
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb-use-native-aio=0
+    command: --innodb-use-native-aio=0 --sql-mode=NO_ENGINE_SUBSTITUTION
     ports:
       - "3306:3306"
     volumes:
       - ./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-      - ./db/mysql/conf.d:/etc/mysql/conf.d
+      - ./db/mysql/conf.d/my.cnf:/etc/mysql/conf.d/my.cnf
       - ./db/logs/mysql:/var/log/mysql
       - ./db/mysql_data:/var/lib/mysql
   # postgresにするときはこっち
@@ -33,8 +30,8 @@ services:
   #     - ./logs/postgres:/var/log/postgres
   #     - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
   #     - ./db/postgres_data:/var/lib/postgresql/data
-  web-php7:
-    container_name: web-php7
+  web:
+    container_name: web
     build: 
       context: ./
       dockerfile: ./web/php7/Dockerfile
@@ -48,11 +45,11 @@ services:
     volumes:
       - ../Projects:/var/www/html
       - ./web/logs:/var/log/apache2
-    depends_on:
+    links:
       - db
   # php5にする時はこっち
-  # web-php5:
-  #   container_name: web-php5
+  # web:
+  #   container_name: web
   #   build: 
   #     context: ./
   #     dockerfile: ./web/php5/Dockerfile
@@ -66,7 +63,7 @@ services:
   #   volumes:
   #     - ../Projects:/var/www/html
   #     - ./web/logs:/var/log/apache2
-  #   depends_on:
+  #   links:
   #     - db
   # # smtp:
   #   container_name: smtp
@@ -75,8 +72,8 @@ services:
   #     - "1080:1080"
   #     - "1025:1025"
   # python3にする時はこっち
-  # web-py3:
-  #   container_name: web-py3
+  # web:
+  #   container_name: web
   #   build: 
   #     context: ./
   #     dockerfile: ./web/python3/Dockerfile
@@ -89,7 +86,7 @@ services:
   #     OS_NAME: "docker"
   #   volumes:
   #     - ../Projects:/var/www/html
-  #   depends_on:
+  #   links:
   #     - db
   # mailhogに変更
   mailhog:
@@ -103,17 +100,24 @@ services:
       MH_MAILDIR_PATH: /tmp
     volumes:
         - "./mails:/tmp"
-  pma:
-    container_name: pma
-    image: phpmyadmin/phpmyadmin
-    environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOST=db
-      - PMA_USER=user
-      - PMA_PASSWORD=password
-    links:
+  # phpmyadmin:
+  #   container_name: pma
+  #   image: phpmyadmin/phpmyadmin
+  #   environment:
+  #     - PMA_ARBITRARY=1
+  #     - PMA_HOST=db
+  #     - PMA_USER=user
+  #     - PMA_PASSWORD=password
+  #   links:
+  #     - db
+  #   ports:
+  #     - 8080:80
+  #   volumes:
+  #     - ./db/phpmyadmin/sessions:/sessions
+  adminer:
+    container_name: adminer
+    image: adminer:latest
+    links: 
       - db
-    ports:
-      - 8080:80
-    volumes:
-      - ./db/phpmyadmin/sessions:/sessions
+    ports: 
+      - 8080:8080
