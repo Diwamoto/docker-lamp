@@ -7,6 +7,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
+    command: mysqld --innodb-use-native-aio=0 --sql-mode=NO_ENGINE_SUBSTITUTION
     volumes:
       - ./db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - ./db/mysql/conf.d/my.cnf:/etc/mysql/conf.d/my.cnf
